@@ -1,0 +1,16 @@
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: data-fabric-apisix-opa-route-orion-ld-broker
+spec:
+  http:
+  - name: orion-ld-broker
+    match:
+      paths:
+      - /ngsi-ld/v1/entities*
+      methods:
+      - GET
+    backends:
+    - serviceName: orion-ld-broker
+      servicePort: 1026
+    plugin_config_name: data-fabric-apisix-opa-plugin-config
