@@ -385,7 +385,7 @@ kafka:
   controller:
     replicaCount: 0
   broker:
-    replicaCount: 1
+    replicaCount: 3
   kraft:
     enabled: false
   zookeeper:
@@ -402,15 +402,15 @@ ldap-collector:
     tag: "2.2.1"
   envVars:
     - name: LDAP_ORGANIZATION_DN
-      value: "dc=example,dc=org"
+      value: "dc=example,dc=com"
     - name: LDAP_SERVER_ENDPOINT
-      value: "ldap://openldap.default.svc.cluster.local:389"
+      value: "ldap://giros19.dit.upm.es:389"
     - name: LDAP_USE_SSL
       value: "\"False\""
     - name: LDAP_USER
-      value: "cn=admin,dc=example,dc=org"
+      value: "cn=admin,dc=example,dc=com"
     - name: LDAP_PASSWORD
-      value: "Not@SecurePassw0rd"
+      value: "candil"
     - name: LDAP_CONN_MAX_RETRIES
       value: "5"
     - name: LDAP_CONN_TIMEOUT
@@ -477,7 +477,7 @@ data-product-manager:
 rdf-to-ngsi-ld:
   enabled: true
   image:
-    tag: "1.0.2"
+    tag: "1.1.0"
   configMap:
     urnTransform:
       urn: std_default_type
@@ -489,16 +489,20 @@ rdf-to-ngsi-ld:
       format: long
     encodeTransform:
       encoder: encode_url_as_http
+      unquote: True
     kafkaClient:
       servers: data-fabric-kafka.default.svc.cluster.local:9092
       topic: knowledge-graphs
     brokerld:
       url: http://data-fabric-orion-ld-broker.default.svc.cluster.local:1026
+      poolSize: 15
+      concatArrays: false
 
 ### --- --- ###
 
 ### --- ORION-LD CONTEXT BROKER AND MONGODB --- ###
 
+# Documentation: https://gitlab.aeros-project.eu/wp4/t4.2/context-broker/-/tree/main?ref_type=heads
 orion-ld:
   enabled: true
   broker:
