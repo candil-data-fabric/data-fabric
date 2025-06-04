@@ -1,0 +1,70 @@
+apiVersion: v2
+name: data-fabric
+description: Data Fabric - A Helm Chart for Kubernetes
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 1.0.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "1.0.0"
+
+dependencies:
+  - name: flux2
+    condition: flux2.enabled
+    version: 2.14.0
+    repository: "https://fluxcd-community.github.io/helm-charts"
+  - name: opa-kube-mgmt
+    condition: opa-kube-mgmt.enabled
+    version: 8.5.11
+    repository: "https://open-policy-agent.github.io/kube-mgmt/charts"
+  - name: apisix
+    condition: apisix.enabled
+    version: 2.10.0
+    repository: "https://charts.apiseven.com"
+  - name: data-catalog-service
+    condition: data-catalog-service.enabled
+    version: 1.1.2
+    repository: "https://candil-data-fabric.github.io/data-catalog-service-helm"
+  - name: data-security-service
+    condition: data-security-service.enabled
+    version: 1.1.1
+    repository: "https://candil-data-fabric.github.io/data-security-service-helm"
+  - name: data-product-manager
+    condition: data-product-manager.enabled
+    version: 3.2.0
+    repository: "https://candil-data-fabric.github.io/data-product-manager-helm"
+  - name: kafka
+    condition: kafka.enabled
+    version: 31.0.0
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: ldap-collector
+    condition: ldap-collector.enabled
+    version: 2.2.1
+    repository: "https://candil-data-fabric.github.io/ldap-collector-helm"
+  - name: orion-ld
+    condition: orion-ld.enabled
+    version: 1.2.0
+    repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
+  - name: rdf-to-ngsi-ld
+    condition: rdf-to-ngsi-ld.enabled
+    version: 3.3.0
+    repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
+  - name: semantic-annotator
+    condition: semantic-annotator.enabled
+    version: 1.0.5
+    repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
