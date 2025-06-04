@@ -502,7 +502,6 @@ rdf-to-ngsi-ld:
 
 ### --- ORION-LD CONTEXT BROKER AND MONGODB --- ###
 
-# Documentation: https://gitlab.aeros-project.eu/wp4/t4.2/context-broker/-/tree/main?ref_type=heads
 orion-ld:
   enabled: true
   broker:
