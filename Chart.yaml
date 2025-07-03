@@ -1,6 +1,9 @@
 apiVersion: v2
 name: data-fabric
 description: Data Fabric - A Helm Chart for Kubernetes
+maintainers:
+  - name: Ignacio Domínguez Martínez-Casanueva
+  - name: David Martínez García
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -26,19 +29,19 @@ appVersion: "1.0.0"
 dependencies:
   - name: flux2
     condition: flux2.enabled
-    version: 2.14.0
+    version: 2.16.1
     repository: "https://fluxcd-community.github.io/helm-charts"
   - name: opa-kube-mgmt
     condition: opa-kube-mgmt.enabled
-    version: 8.5.11
+    version: 9.1.0
     repository: "https://open-policy-agent.github.io/kube-mgmt/charts"
   - name: apisix
     condition: apisix.enabled
-    version: 2.10.0
+    version: 2.11.0
     repository: "https://charts.apiseven.com"
   - name: data-catalog-service
     condition: data-catalog-service.enabled
-    version: 1.1.2
+    version: 1.4.0
     repository: "https://candil-data-fabric.github.io/data-catalog-service-helm"
   - name: data-security-service
     condition: data-security-service.enabled
@@ -46,7 +49,7 @@ dependencies:
     repository: "https://candil-data-fabric.github.io/data-security-service-helm"
   - name: data-product-manager
     condition: data-product-manager.enabled
-    version: 3.2.0
+    version: 3.3.3
     repository: "https://candil-data-fabric.github.io/data-product-manager-helm"
   - name: kafka
     condition: kafka.enabled
@@ -54,17 +57,21 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
   - name: ldap-collector
     condition: ldap-collector.enabled
-    version: 2.2.1
+    version: 2.2.3
     repository: "https://candil-data-fabric.github.io/ldap-collector-helm"
   - name: orion-ld
     condition: orion-ld.enabled
-    version: 1.2.0
+    version: 1.4.2
     repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
   - name: rdf-to-ngsi-ld
     condition: rdf-to-ngsi-ld.enabled
-    version: 3.3.0
+    version: 3.3.6
     repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
   - name: semantic-annotator
     condition: semantic-annotator.enabled
-    version: 1.0.5
+    version: 1.0.7
+    repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
+  - name: semantic-translator
+    condition: semantic-translator.enabled
+    version: 2.0.8
     repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"

@@ -132,7 +132,7 @@ opa-kube-mgmt:
   # OPA docker image configuration.
   image:
     repository: openpolicyagent/opa
-    tag: 0.69.0
+    tag: 1.3.0
     pullPolicy: IfNotPresent
 
   # One or more secrets to be used when pulling images
@@ -336,20 +336,22 @@ apisix:
 data-catalog-service:
   enabled: true
   image:
-    tag: "1.1.2"
+    tag: "1.4.0"
   service:
     type: NodePort
   envVars:
     - name: INTERNAL_CONTEXT_BROKER_URL
-      value: http://data-fabric-orion-ld-broker.default.svc.cluster.local:1026/ngsi-ld/v1
+      value: "http://data-fabric-orion-ld-broker.default.svc.cluster.local:1026/ngsi-ld/v1"
     - name: PUBLIC_CONTEXT_BROKER_URL
-      value: http://data-fabric-orion-ld-broker.default.svc.cluster.local:1026/ngsi-ld/v1
+      value: "http://data-fabric-orion-ld-broker.default.svc.cluster.local:1026/ngsi-ld/v1"
     - name: ORGANIZATION_ID
-      value: AEROS
+      value: "CANDIL"
     - name: DOMAIN_ID
-      value: AEROS
+      value: "Default"
     - name: LOGLEVEL
-      value: DEBUG
+      value: "DEBUG"
+    - name: MONGO_DB_URI
+      value: "mongodb://data-fabric-orion-ld-mongodb.default.svc.cluster.local:27017/"
 
 ### --- --- ###
 
@@ -385,12 +387,15 @@ kafka:
   controller:
     replicaCount: 0
   broker:
-    replicaCount: 3
+    replicaCount: 1
   kraft:
     enabled: false
   zookeeper:
     enabled: true
     replicaCount: 1
+  extraConfig: |
+    offsets.topic.replication.factor=1
+    transaction.state.log.replication.factor=1
 
 ### --- --- ###
 
@@ -399,12 +404,12 @@ kafka:
 ldap-collector:
   enabled: true
   image:
-    tag: "2.2.1"
+    tag: "2.2.3"
   envVars:
     - name: LDAP_ORGANIZATION_DN
       value: "dc=example,dc=com"
     - name: LDAP_SERVER_ENDPOINT
-      value: "ldap://giros19.dit.upm.es:389"
+      value: "ldap://openldap.default.svc.cluster.local:389"
     - name: LDAP_USE_SSL
       value: "\"False\""
     - name: LDAP_USER
@@ -423,7 +428,7 @@ ldap-collector:
 data-product-manager:
   enabled: true
   image:
-    tag: "3.2.0"
+    tag: "3.3.3"
   service:
     type: NodePort
   envVars:
@@ -477,8 +482,11 @@ data-product-manager:
 rdf-to-ngsi-ld:
   enabled: true
   image:
-    tag: "1.1.0"
+    tag: "1.0.6"
   configMap:
+    default:
+      context: https://fiware.github.io/data-models/context.jsonld
+      # context: https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld
     urnTransform:
       urn: std_default_type
     typeTransform:
@@ -506,7 +514,7 @@ orion-ld:
   enabled: true
   broker:
     args:
-      brokerId: "AEROS"
+      brokerId: "CANDIL"
       noArrayReduction: false
 
 ### --- --- ###
@@ -516,9 +524,60 @@ orion-ld:
 semantic-annotator:
   enabled: true
   streamer:
+    flavor: "persistent"
     image:
       tag: "1.0.5"
     envVars:
-      SEAMAN_LOG_LEVEL: DEBUG
+      - name: SEAMAN_LOG_TO_FILE
+        value: "false"
+      - name: SEAMAN_LOG_LEVEL
+        value: "DEBUG"
+      - name: SEAMAN_RESTORE_STOPPED
+        value: "false"
+      - name: MONGO_HOST
+        value: "data-fabric-semantic-annotator-mongodb.default.svc.cluster.local"
+      - name: MONGO_PORT
+        value: "27017"
+      - name: MONGO_DATABASE
+        value: "semantic-annotator"
+      - name: MONGO_USER
+        value: "seaman"
+      - name: MONGO_PASSWORD
+        value: "seaman"
+  mongodb:
+    deploy: true
+    envVars:
+      - name: MONGODB_ROOT_USER
+        value: "root"
+      - name: MONGODB_ROOT_PASSWORD
+        value: "root"
+      - name: ALLOW_EMPTY_PASSWORD
+        value: "false"
+      - name: MONGODB_DATABASE
+        value: "semantic-annotator"
+      - name: MONGODB_USERNAME
+        value: "seaman"
+      - name: MONGODB_PASSWORD
+        value: "seaman"
+
+### --- --- ###
+
+### --- SEMANTIC TRANSLATOR --- ###
+
+semantic-translator:
+  enabled: true
+  image:
+    tag: "2.0.8"
+  envVars:
+    - name: SEMTRANS_REST_HOST
+      value: "0.0.0.0"
+    - name: SEMTRANS_REST_PORT
+      value: "8080"
+    - name: SEMTRANS_CHANNEL_TYPES.0
+      value: "KK"
+    - name: SEMTRANS_KAFKA_HOST
+      value: data-fabric-kafka.default.svc.cluster.local
+    - name: SEMTRANS_KAFKA_PORT
+      value: "9092"
 
 ### --- --- ###
