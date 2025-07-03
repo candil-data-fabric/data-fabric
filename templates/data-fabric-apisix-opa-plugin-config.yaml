@@ -8,4 +8,4 @@ spec:
     enable: true
     config:
       host: http://data-fabric-opa.default.svc.cluster.local:8181 # Point to OPA service.
-      policy: aerOS
+      policy: CANDIL

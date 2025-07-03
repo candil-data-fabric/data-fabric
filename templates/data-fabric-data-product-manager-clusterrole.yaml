@@ -28,7 +28,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: data-fabric-data-product-manager
-  namespace: default
+  namespace: data-fabric
 roleRef:
   kind: ClusterRole
   name: data-fabric-data-product-manager-clusterrole

@@ -1,11 +1,11 @@
 # CANDIL Data Fabric
 
-This repository provides a Helm chart for deploying the CANDIL Data Fabric. The chart depends several other helm charts representing the components that comprise the Data Fabric.
+This repository provides a Helm chart for deploying the CANDIL Data Fabric. The chart depends on several other Helm charts representing the components that comprise the Data Fabric.
 
 ## Prerequirements
 
-- Kubernetes
-- Helm
+- Kubernetes.
+- Helm.
 
 ## Installation
 
