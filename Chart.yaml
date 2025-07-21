@@ -1,9 +1,6 @@
 apiVersion: v2
 name: data-fabric
 description: Data Fabric - A Helm Chart for Kubernetes
-maintainers:
-  - name: Ignacio Domínguez Martínez-Casanueva
-  - name: David Martínez García
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -65,7 +62,7 @@ dependencies:
     repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
   - name: rdf-to-ngsi-ld
     condition: rdf-to-ngsi-ld.enabled
-    version: 3.3.6
+    version: 3.3.7
     repository: "https://gitlab.aeros-project.eu/api/v4/projects/65/packages/helm/stable"
   - name: semantic-annotator
     condition: semantic-annotator.enabled

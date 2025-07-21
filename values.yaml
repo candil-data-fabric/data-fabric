@@ -505,6 +505,10 @@ rdf-to-ngsi-ld:
       url: http://data-fabric-orion-ld-broker.default.svc.cluster.local:1026
       poolSize: 15
       concatArrays: false
+    treatAsArray:
+      attributes:
+        - http://tmp1
+        - http://tmp2
 
 ### --- --- ###
 
